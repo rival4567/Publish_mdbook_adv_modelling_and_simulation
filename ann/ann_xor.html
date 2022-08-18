@@ -1,0 +1,537 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Script - Advanced Modelling and Simulation Documentation</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The documentation of Recursive Least Squares and ANN with Backpropagation.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../scilab/rls_introduction.html"><strong aria-hidden="true">1.1.</strong> Least Squares Method</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../scilab/script.html"><strong aria-hidden="true">1.1.1.</strong> Script</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../scilab/static_process.html"><strong aria-hidden="true">1.1.1.1.</strong> Least Squares for Static Process</a></li><li class="chapter-item "><a href="../scilab/rls.html"><strong aria-hidden="true">1.1.1.2.</strong> Recursive Least Squares for Dynamic System</a></li></ol></li><li class="chapter-item "><a href="../scilab/rls_results.html"><strong aria-hidden="true">1.1.2.</strong> Results</a></li></ol></li><li class="chapter-item "><a href="../scilab/sod_introduction.html"><strong aria-hidden="true">1.2.</strong> System Order Determination for parameter Estimation</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="../scilab/system_order_determination.html"><strong aria-hidden="true">1.2.1.</strong> Script</a></li><li class="chapter-item "><a href="../scilab/sod_results.html"><strong aria-hidden="true">1.2.2.</strong> Results</a></li></ol></li><li class="chapter-item expanded "><a href="../ann/introduction.html"><strong aria-hidden="true">1.3.</strong> ANN with Backpropagation</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../ann/ann_xor.html" class="active"><strong aria-hidden="true">1.3.1.</strong> Script</a></li><li class="chapter-item "><a href="../ann/results.html"><strong aria-hidden="true">1.3.2.</strong> Results</a></li></ol></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Advanced Modelling and Simulation Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/rival4567/advanced_modelling_and_simulation.git" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/rust-lang/mdBook/edit/master/guide/src/ann/ann_xor.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="script"><a class="header" href="#script">Script</a></h1>
+<h2 id="problem-statement"><a class="header" href="#problem-statement">Problem Statement</a></h2>
+<ul>
+<li>Solve <code>XOR</code> Problem using <strong>Artificial Neural Networks with Backpropagation</strong>.</li>
+</ul>
+<h2 id="solution"><a class="header" href="#solution">Solution</a></h2>
+<ul>
+<li>
+<p>The script can be downloaded by using this -&gt; <a href="ANN.zip" download><button>Download</button></a></p>
+</li>
+<li>
+<p>To run the solution, extract the zip folder and execute this command:</p>
+</li>
+</ul>
+<pre><code class="language-bash">python3 ANN/ann_xor.py
+</code></pre>
+<br/>
+<p><code>ann_xor.py</code></p>
+<pre><code class="language-python">#! /usr/bin/env python3
+
+'''
+ann_xor
+========
+This script allows to train artificial neural network to solve problems
+including XOR. This solution is very generalised as multiple hidden
+layers could be used to solve other problems as well.
+
+******************************************************
+Author: Shivam Shivam (shivam0.mechatronics@gmail.com)
+******************************************************
+University: Technische Hochschule Deggendorf
+--------------------------------------------
+'''
+
+# importing the required module
+import matplotlib.pyplot as plt
+import numpy as np
+
+class NeuronLayer():
+    '''
+    This class creates a neuron layer for Artificial neural network.
+    It returns random weights and random biases for the layer.
+
+    :param num_inputs: Number of inputs of a neuron layer
+    :type num_inputs: int
+
+    :param num_neurons: Number of neuron connections to the layer
+    :type num_neurons: int
+
+    '''
+    #pylint: disable=too-few-public-methods
+    def __init__(self, num_inputs, num_neurons):
+        '''Constructor Method'''
+        # Random variables for weights and bias for the layer
+        self.weights = np.random.uniform(size=(num_inputs, num_neurons))
+        self.bias = np.random.uniform(size=(1, num_neurons))
+
+
+class ArtificialNeuralNetwork():
+    '''
+    This class is used to train a neural network of multiple layers.
+    If the neural network consists of only two inputs, it can plot a
+    graph showing the boundaries.
+
+    :param layers: A neural network of minimum two layers
+    :type layers: list
+
+    :TODO: Try adding changing learning rate to reduce oscillations
+    '''
+
+    def __init__(self, layers):
+        '''Constructor Method'''
+        self.layer = layers
+        self.num_layer = len(layers)
+        self.layer_output_list = []
+        self.learning_rate = 0.2
+        self.losses = []
+
+    def sigmoid_activation(self, value):
+        '''
+        The sigmoid activation function.
+
+        :param value: Sigmoid function is implemented on this.
+        :type value: `array` or `list` of floats
+        :return: Value of sigmoid function
+        :rtype: `array or `list` of floats
+        '''
+        return 1 / (1 + np.exp(-value))
+
+
+    def linear_activation(self, value, index):
+        '''
+        Linear Activation function. weights * `value` + bias
+
+        :param value: Linear Activation function is implemented on this.
+        :type value: `array` or `list` of floats
+        :param index: It gives the layers number from which weights and bias
+                    are extracted
+        :type index: int
+        :return: Output of linear activation function
+        :rtype: `array` or `list` of floats
+        '''
+
+        return np.dot(value, self.layer[index].weights) + self.layer[index].bias
+
+
+    def sigmoid_derivative(self, value):
+        '''
+        The first derivative of the sigmoid function wrt `value`.
+
+        :param value: Sigmoid Derivative is implemented on this.
+        :type value: `array` or `list` of floats
+        :return: Output of sigmoid derivative
+        :rtype: `array` or `list` of floats
+        '''
+        return value * (1 - value)
+
+
+    def forward_feeding(self, input_set):
+        '''
+        Feed Forward function for learning of neural network. This algorithm
+        takes updates each layer based on previous layer output by using
+        ``sigmoid_activation()`` and ``linear_activation()`` methods.
+
+        :param input_set: Training set input for the training of network
+        :type input_set: `array` or `list` of floats, ints
+        :return: Final layer output
+        :rtype: `array` or `list` of floats
+        '''
+        self.layer_output_list = []
+        for lay in range(self.num_layer):
+            layer_output = input_set if lay == 0 \
+                else self.layer_output_list[lay-1]
+
+            self.layer_output_list.append(self.sigmoid_activation(
+                            self.linear_activation(layer_output, lay)))
+
+        return self.layer_output_list[-1]
+
+
+    def back_propagation(self, output, desired_output):
+        '''
+        This method calculates the gradient required to update the
+        weights of each layer based on back propagation algorithm.
+        It also calculates the losses in desired output and
+        calculated output using ``forward_feeding()`` method.
+
+        :param output: Calcuated output using ``forward_feeding()``
+                    method
+        :type output: `array` or `list` of floats
+        :param desired_output: Target output
+        :type desired_output: `array` or `list` of floats, ints
+        :return: gradient required to update the weights of each layer
+        :rtype: `array` or `list` of floats
+        '''
+        # Calculate losses
+        loss = 0.5 * (desired_output - output) ** 2
+        self.losses.append(np.sum(loss))
+
+        # Final delta, we are moving from back to first
+        error = (desired_output - output)
+        delta = (error * self.sigmoid_derivative(output))
+        delta_list = [delta]
+
+        # Calcuate delta for each layer backwards
+        for lay in range(self.num_layer - 1):
+            hidden_delta = np.dot(
+                delta_list[lay], (self.layer[-(lay+1)].weights.T)) \
+            * self.sigmoid_derivative(self.layer_output_list[-(lay+2)])
+            delta_list.append(hidden_delta)
+
+        # Reverse and return the list
+        return delta_list[::-1]
+
+
+    def train(self, num_iterations, training_set_inputs, training_set_outputs):
+        '''
+        This method trains the neural network for a specific task. It
+        then updates the weights and biases based on
+        ``back_propagation()`` method.
+
+        :param num_iterations: provides the number of interations on
+                    which to train the neural network
+        :type num_iterations: int
+        :param training_set_inputs: On which to train the ANN
+        :type training_set_inputs: `array` or `list` of floats, ints
+        :param training_set_outputs: On which to train the ANN
+        :type training_set_outputs: `array` or `list` of floats, ints
+        '''
+        for iteration in range(num_iterations):
+            trained_output = self.forward_feeding(training_set_inputs)
+            delta = self.back_propagation(
+                trained_output, training_set_outputs)
+
+            for lay in range(self.num_layer):
+                grad = training_set_inputs.T @ delta[lay] if lay == 0 else \
+                    self.layer_output_list[lay-1].T @ delta[lay]
+                self.layer[lay].weights += (self.learning_rate * grad)
+                self.layer[lay].bias += np.sum(
+                    self.learning_rate * delta[lay], axis=0)
+
+            print(iteration + 1, trained_output)
+
+
+
+    def classify(self, input_set):
+        '''
+        Return the class to which a datapoint belongs based on
+        the ANN output for that point.
+
+        :param input_set: datapoints for classifications
+        :type input_set: list of [x, y]
+        :return: `1` if trained_output &gt; 0.5, otherwise `0`
+        :rtype: int
+        '''
+        if self.forward_feeding(input_set) &gt; 0.5:
+            return 1
+        return 0
+
+
+    def plot_2d(self, input_list, output_list, hmin=0.01):
+        '''
+        Generate plot of input data and decision boundary.
+
+        :param input_list: Training set input for plotting
+        :type input_list: `array` or `list` of floats, ints
+        :param output_list: Training set output for plotting
+        :type output_list: `array` or `list` of floats, ints
+        '''
+        # setting plot properties like size, theme and axis limits
+        plt.figure(figsize=(5, 5))
+        plt.axis('scaled')
+        plt.xlim(-0.1, 1.1)
+        plt.ylim(-0.1, 1.1)
+        plt.xlabel('x - axis')
+        plt.ylabel('y - axis')
+
+        colors = {
+            0: &quot;red&quot;,
+            1: &quot;green&quot;
+        }
+
+        # Plot the datapoints and their color based on ``output_list``
+        for iteration, value in enumerate(input_list):
+            plt.plot(value[0], value[1], color='black',linestyle='-',
+                marker='o', markerfacecolor=colors[
+                    output_list[iteration][0]], markersize=15)
+
+        # Color the graph based on after training
+        x_range = np.arange(-0.1, 1.1, hmin)
+        y_range = np.arange(-0.1, 1.1, hmin)
+
+        # creating a mesh to plot decision boundary
+        x_mesh, y_mesh = np.meshgrid(x_range, y_range, indexing='ij')
+        classify = np.array([[
+            self.classify([x, y]) for x in x_range] for y in y_range])
+
+        # using the contourf function to create the plot
+        plt.contourf(x_mesh, y_mesh, classify, colors=[
+            'red', 'green', 'green', 'blue'], alpha=0.4)
+
+
+    def print_weights(self):
+        '''The neural network prints its weights'''
+        print(&quot;\nNumber of layers: &quot;, self.num_layer)
+        layer_number = 0
+        for lay in self.layer:
+            layer_number += 1
+            print(&quot;\nLayer: &quot;, layer_number, lay.weights)
+
+
+def main():
+    '''Main Function. It trains the XOR Function using
+    ``ArtificialNeuralNetwork()`` class and then plots the boundary
+    graph.'''
+    input_list = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+    output_list = np.array([[0, 1, 1, 0]]).T
+
+    layer = []
+    # Create layer 1 (2 inputs, 2 neurons)
+    layer.append(NeuronLayer(2, 2)) # Hidden layer
+    # layer.append(NeuronLayer(2, 5))
+    #layer.append(NeuronLayer(5, 6))
+    # Create layer 2 (2 inputs, 1 output)
+    layer.append(NeuronLayer(2, 1)) # Output layer
+
+    ann = ArtificialNeuralNetwork(layer)
+
+    print(&quot;\nStage 1) Before Training (weights): &quot;)
+    ann.print_weights()
+
+    # Increase the number of iterations when using multiple hidden layers
+    ann.train(8000, input_list, output_list)
+
+    print(&quot;\nStage 2) After Training (weights): &quot;)
+    ann.print_weights()
+
+    print(&quot;\nStage 3) Testing: [1, 1]&quot;)
+    trained_output = ann.forward_feeding([[1, 1]])
+    print(trained_output)
+
+    # Plot losses graph
+    plt.title('LOSSES')
+    plt.plot(ann.losses)
+
+    # If number of inputs is equal to 2, plot the 2d graph
+    if len(input_list[0]) == 2:
+        ann.plot_2d(input_list, output_list)
+        plt.title('XOR Function')
+
+    plt.show()
+
+if __name__ == &quot;__main__&quot;:
+    main()
+
+</code></pre>
+<center><a href="ANN.zip" download><button>Download</button></a><center>
+<hr />
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../ann/introduction.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../ann/results.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../ann/introduction.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../ann/results.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>

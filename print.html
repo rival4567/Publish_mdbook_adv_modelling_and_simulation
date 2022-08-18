@@ -1,0 +1,1151 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Advanced Modelling and Simulation Documentation</title>
+        <meta name="robots" content="noindex" />
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The documentation of Recursive Least Squares and ANN with Backpropagation.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="scilab/rls_introduction.html"><strong aria-hidden="true">1.1.</strong> Least Squares Method</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="scilab/script.html"><strong aria-hidden="true">1.1.1.</strong> Script</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="scilab/static_process.html"><strong aria-hidden="true">1.1.1.1.</strong> Least Squares for Static Process</a></li><li class="chapter-item "><a href="scilab/rls.html"><strong aria-hidden="true">1.1.1.2.</strong> Recursive Least Squares for Dynamic System</a></li></ol></li><li class="chapter-item "><a href="scilab/rls_results.html"><strong aria-hidden="true">1.1.2.</strong> Results</a></li></ol></li><li class="chapter-item "><a href="scilab/sod_introduction.html"><strong aria-hidden="true">1.2.</strong> System Order Determination for parameter Estimation</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="scilab/system_order_determination.html"><strong aria-hidden="true">1.2.1.</strong> Script</a></li><li class="chapter-item "><a href="scilab/sod_results.html"><strong aria-hidden="true">1.2.2.</strong> Results</a></li></ol></li><li class="chapter-item "><a href="ann/introduction.html"><strong aria-hidden="true">1.3.</strong> ANN with Backpropagation</a><a class="toggle"><div>❱</div></a></li><li><ol class="section"><li class="chapter-item "><a href="ann/ann_xor.html"><strong aria-hidden="true">1.3.1.</strong> Script</a></li><li class="chapter-item "><a href="ann/results.html"><strong aria-hidden="true">1.3.2.</strong> Results</a></li></ol></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Advanced Modelling and Simulation Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/rival4567/advanced_modelling_and_simulation.git" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
+<ul>
+<li>This is the documentation for the Scilab and Python Scripts.</li>
+<li>Tasks involving topics related to Advanced Modelling and Simulation.</li>
+</ul>
+<hr />
+<br/>
+<h1 id="recursive-least-squares"><a class="header" href="#recursive-least-squares">Recursive Least Squares</a></h1>
+<p>Simulation of “real” system” -&gt; difference equation of 2nd order time delay system</p>
+<h3 id="suggested-transfer-function"><a class="header" href="#suggested-transfer-function">Suggested transfer function</a></h3>
+<pre><code>F(z): (T = 0.05 sec, D = 0.5, w0 = 10 / sec)             
+                0.25 
+F(z) =   ---------------------
+          1.75 z^2 -2.5 z + 1 
+</code></pre>
+<hr />
+<h3 id="methods-used"><a class="header" href="#methods-used">Methods Used</a></h3>
+<ol>
+<li>conventional parameter estimation e.g. least squares</li>
+<li>Recursive Least squares</li>
+<li>Recursive Least squares with exponential forgetting</li>
+</ol>
+<h1 id="system-order-determination-for-parameter-estimation"><a class="header" href="#system-order-determination-for-parameter-estimation">System Order Determination for parameter estimation</a></h1>
+<ul>
+<li>Scilab script function</li>
+</ul>
+<h1 id="ann-with-backpropagation---xor-functionpython-file"><a class="header" href="#ann-with-backpropagation---xor-functionpython-file">ANN with Backpropagation -&gt; XOR Function(Python file)</a></h1>
+<ol>
+<li>Implementation of specific example</li>
+<li>Scalable “toolbox” for multilayer networks (Created a generic solution myself).</li>
+</ol>
+<hr />
+<h2 id="happy-coding"><a class="header" href="#happy-coding">Happy Coding!!!</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="least-squares-method"><a class="header" href="#least-squares-method">Least Squares Method</a></h1>
+<h2 id="principles-of-parameter-estimation"><a class="header" href="#principles-of-parameter-estimation">Principles of Parameter Estimation</a></h2>
+<p>The <code>parameters</code> of a system model are adjusted by an optimizer. Final goal of the <strong>optimization process</strong> is the <strong>minimization</strong> of the <code>error</code> \( \epsilon \) for every defined <code>input signal</code> \( \underline{u} \).</p>
+<p>Common method of <code>parameter estimation</code> are:</p>
+<ul>
+<li>least squares method</li>
+<li>steepest descend</li>
+<li>Support vector machine</li>
+<li>Maximum Likelihood Method</li>
+</ul>
+<p><img src="scilab/parameter_estimation.png" alt="parameter estimation" /></p>
+<h2 id="ls-method"><a class="header" href="#ls-method">LS method</a></h2>
+<p>In least squares method, we choose the <strong>cost function</strong> as <code>quadratic cost function</code>. First of all, it is easier to <strong>minimize</strong> than many other cost functions. The main reason is however that for a <strong>normally distributed noise</strong>, it yields <strong>asymptotically</strong> the best unbiased estimates in terms of the <code>parameter error variance</code>.</p>
+<h3 id="recursive-least-squares-1"><a class="header" href="#recursive-least-squares-1">Recursive Least squares</a></h3>
+<p>The method of <code>least squares</code> assumed that all parameters had first been stored and had then been processed in one pass (<code>batch processing</code>). This
+also means that the <strong>parameter</strong> estimates are only available after the end of the measurement. The <code>non-recursive method</code> of least squares is hence more suitable for <code>offline identification</code>. </p>
+<p>If the process however shall be identified <code>online</code> and in <code>real-time</code>, then new parameter estimates should be available during the measurement, e.g. after each <code>sample step</code>. If one would apply the <code>non-recursive method of least squares</code>, one would augment the data matrix \( \psi \) with one row after each sample step and would then process all available data (even from the previous sample steps). Such an approach would require a lot of computations and is hence inappropriate. <code>Recursive methods</code> reduce the computational effort and provide an <strong>update</strong> of the <code>parameter estimates</code> after each sample step. Previous measurements do not have
+to be stored.</p>
+<h3 id="recursive-least-squares-with-exponential-forgetting"><a class="header" href="#recursive-least-squares-with-exponential-forgetting">Recursive Least Squares with exponential forgetting</a></h3>
+<p>If the <code>recursive estimation algorithms</code> should be able to follow slowly <code>time-varying process</code> parameters, more recent measurements must be <strong>weighted</strong> more strongly than old measurements. Therefore the <strong>estimation algorithms</strong> should have a <em>fading
+memory</em>. This can be incorporated into the least squares method by <code>time-depending weighting</code> of the <strong>squared errors</strong>.</p>
+<p>Hence, one talks about the <code>exponential forgetting memory</code> and \( \lambda \) is termed <em>forgetting factor</em>.</p>
+<hr />
+<div style="break-before: page; page-break-before: always;"></div><h1 id="script"><a class="header" href="#script">Script</a></h1>
+<br/>
+<p>In the following scripts, we will first see how <code>least squares</code> are used to solve <code>static processes/system</code>. Then we will use <code>recursive least squares</code> for <code>parameter estimation</code> of <code>dynamic systems</code>.</p>
+<hr />
+<div style="break-before: page; page-break-before: always;"></div><h1 id="least-squares-for-static-process"><a class="header" href="#least-squares-for-static-process">Least Squares for Static Process</a></h1>
+<h2 id="problem-statement"><a class="header" href="#problem-statement">Problem Statement</a></h2>
+<ul>
+<li>Use least squares method for <em>parameter estimation</em>.</li>
+</ul>
+<h2 id="solution"><a class="header" href="#solution">Solution</a></h2>
+<ul>
+<li>To download the complete solution, click on this -&gt; <a href="scilab/least_square_method.sce" download><button>Download</button></a></li>
+</ul>
+<h2 id="step-by-step-solution"><a class="header" href="#step-by-step-solution">Step-by-Step Solution</a></h2>
+<blockquote>
+<p><strong>Note</strong>: You can run individual commands in <code>scilab console</code> to see what each <strong>command</strong> does.</p>
+</blockquote>
+<ol>
+<li>
+<p>Initialise variable required and the <code>y</code> vector.</p>
+<pre><code class="language-c">// Least square method
+
+clc;
+clear;
+clf;
+
+//y = [0 1.1 2.4 2.9 4 5.2 6]';
+y = [0 1.5 2.4 2.5 4 5.5 6]';
+y_avg = sum(y)/length(y);
+</code></pre>
+</li>
+<li>
+<p>Use <code>simple linear least squares</code> to find the parameter. Then plotting the graph.</p>
+<pre><code class="language-c">u = [0 1 2 3 4 5 6]';
+a_hat = inv(u'*u)*u'*y;
+y_hat = a_hat * u;
+Q = 0
+num_r2 = 0
+den_r2 = 0
+subplot(2, 2, 1)
+title(&quot;Least square method&quot;)
+for i = 1:length(y)
+    e = y(i) - y_hat(i)
+    Q = Q + e^2;
+    num_r2 = num_r2 + (y_hat(i) - y_avg)^2;
+    den_r2 = den_r2 + (y(i) - y_avg)^2;
+    plot(u(i), y(i), &quot;bx&quot;)
+end
+
+coeff_deter = num_r2/den_r2;
+disp(&quot;Least Square method&quot;)
+disp(&quot;Estimated parameter: &quot;, a_hat)
+disp(&quot;Value error function: &quot;, Q)
+//disp(&quot;Coefficient of determination R^2: &quot;, coeff_deter)
+plot(u, y_hat, &quot;r&quot;)
+</code></pre>
+<p><img src="scilab/simple_linear_LS.png" alt="Simple linear LS" /></p>
+</li>
+<li>
+<p>Use <code>extended linear model LS</code> for finding parameters. Then plotting the graph.</p>
+<pre><code class="language-c"> // Least square method with extended linear model
+
+ U = [0 1 2 3 4 5 6; 1 1 1 1 1 1 1]';
+ A_hat = inv(U'*U)*U'*y;
+ Y_hat = A_hat(1)*U(:, 1) + A_hat(2);
+
+ Q_e = 0;
+ num_r2 = 0
+ den_r2 = 0
+
+ subplot(2, 2, 2)
+ title(&quot;Parameter estimation with extended linear model&quot;)
+
+ for i = 1:length(y)
+     e = y(i) - Y_hat(i);
+     Q_e = Q_e + e^2;
+     num_r2 = num_r2 + (Y_hat(i) - y_avg)^2;
+     den_r2 = den_r2 + (y(i) - y_avg)^2;
+     plot(U(i, 1), y(i), &quot;bx&quot;)
+ end
+
+ coeff_deter_e = num_r2/den_r2;
+ disp(&quot;Parameter estimation with extended linear model&quot;)
+ disp(&quot;Estimated parameter: &quot;, A_hat)
+ disp(&quot;Value error function: &quot;, Q_e)
+ //disp(&quot;Coefficient of determination R^2: &quot;, coeff_deter_e)
+ plot(U(:, 1), Y_hat, &quot;r&quot;)
+</code></pre>
+<p><img src="scilab/extended_linear_LS.png" alt="Extended Linear Model LS" /></p>
+</li>
+<li>
+<p>Use <code>non-linear polynomial model</code> for parameter estimation.</p>
+<pre><code class="language-c">// Parameter Estimation with non linear polynomial model
+
+Up = [0 1^2 2^2 3^2 4^2 5^2 6^2;
+    0  1   2   3   4   5   6;
+    1  1   1   1   1   1   1;]';
+    
+Ap_hat = inv(Up'*Up)*Up'*y;
+Yp_hat = Ap_hat(1)*Up(:, 2)^2 + Ap_hat(2)*Up(:, 2) + Ap_hat(3);
+
+Qp = 0;
+subplot(2, 2, 3)
+title(&quot;Parameter estimation with non linear polynomial model&quot;)
+
+for i = 1:length(y)
+    e = y(i) - Yp_hat(i);
+    Qp = Qp + e^2;
+    num_r2 = num_r2 + (Yp_hat(i) - y_avg)^2;
+    den_r2 = den_r2 + (y(i) - y_avg)^2;
+    plot(Up(i, 2), y(i), &quot;bx&quot;)
+end
+coeff_deter_p = num_r2/den_r2;
+disp(&quot;Parameter estimation with non linear polynomial model&quot;)
+disp(&quot;Estimated parameter: &quot;, Ap_hat)
+disp(&quot;Value error function: &quot;, Qp)
+//disp(&quot;Coefficient of determination R^2: &quot;, coeff_deter_p)
+
+plot(Up(:, 2), Yp_hat, &quot;r&quot;)
+</code></pre>
+<p><img src="scilab/non-linear_polynomial_LS.png" alt="Non-linear polynomial model LS" /></p>
+</li>
+<li>
+<p>Use <code>recursive least squares</code> for parameter estimation of static processes.</p>
+<pre><code class="language-c">// Recursive least squares
+alpha = 1
+m = length(y)
+S = alpha*eye(m, m)
+a_hat = zeros(m, 1)
+
+Q = 0
+num_r2 = 0
+den_r2 = 0
+
+// Algorithm
+for k = 1:m-1
+    gamma_func(k) = (1/(u(k+1)'*S(k)*u(k+1) + 1))*S(k)*u(k+1);
+    a_hat(k+1) = a_hat(k) + gamma_func(k)*(y(k+1) - u(k+1)'*a_hat(k));
+    S(k+1) = (eye(1, 1) - gamma_func(k)*u(k+1)')*S(k);
+end
+
+for i = 1:m
+    yr_hat(i) = a_hat(i)*u(i);
+    e = y(i) - yr_hat(i);
+    Q = Q + e^2;
+    num_r2 = num_r2 + (y_hat(i) - y_avg)^2;
+    den_r2 = den_r2 + (y(i) - y_avg)^2;
+end
+
+coeff_deter = num_r2/den_r2;
+disp(&quot;Least Square method&quot;)
+disp(&quot;Estimated parameter: &quot;, a_hat)
+disp(&quot;Value error function: &quot;, Q)
+//disp(&quot;Coefficient of determination R^2: &quot;, coeff_deter)
+
+subplot(2, 2, 4)
+title(&quot;Recursive least squares&quot;)
+plot(u, yr_hat, &quot;r&quot;)
+plot(u, y, &quot;bx&quot;)
+</code></pre>
+<p><img src="scilab/recursive_LS_static_process.png" alt="Recursive LS static process" /></p>
+</li>
+</ol>
+<h2 id="results"><a class="header" href="#results">Results</a></h2>
+<p><img src="scilab/ls_console.png" alt="Least Squares Console" /></p>
+<center><a href="scilab/least_square_method.sce" download><button>Download</button></a></center>
+<hr />
+<div style="break-before: page; page-break-before: always;"></div><h1 id="recursive-least-squares-2"><a class="header" href="#recursive-least-squares-2">Recursive Least Squares</a></h1>
+<h2 id="problem-statement-1"><a class="header" href="#problem-statement-1">Problem Statement</a></h2>
+<ul>
+<li>Use <code>recursive least squares</code> for <strong>parameter estimation</strong> of a <code>second order dynamic system</code>.</li>
+</ul>
+<h2 id="solution-1"><a class="header" href="#solution-1">Solution</a></h2>
+<ul>
+<li>
+<p>The solution can be <strong>downloaded</strong> by clicking on this -&gt;  <a href="scilab/recursive_LS_PT2.sce" download><button>Recursive Least Squares</button></a></p>
+</li>
+<li>
+<p>Another solution with <code>exponential forgetting</code> algorithm.  <a href="scilab/recursive_LS_EF.sce" download><button>RLS with exponential Forgetting</button></a></p>
+</li>
+</ul>
+<h2 id="step-by-step-solution-1"><a class="header" href="#step-by-step-solution-1">Step-by-Step solution</a></h2>
+<blockquote>
+<p><strong>NOTE</strong>: You can run individual commands in <code>scilab console</code> to see what each <strong>command</strong> does.</p>
+</blockquote>
+<ol>
+<li>
+<p>Clear the <code>console</code>, <code>command window</code> and <code>figures</code>.</p>
+<pre><code class="language-c">//************************************************************************
+//  Recursive least squares method with exponential forgetting
+
+clear;
+clc;
+clf;
+figure(0)
+title(&quot;PT2 System&quot;)
+</code></pre>
+</li>
+<li>
+<p>Variables of second order time delay system. Simulate the <code>real system</code>. First, directly given by the <code>second order time delay system</code> equation and then by <code>laplace equation</code> of second order system. Also, plotting their graphs.</p>
+<pre><code class="language-c">//  Simulation of “real” system” -&gt; difference equation of 2nd order time delay system
+//  Suggested transfer function F(z): (T = 0.05 sec, D = 0.5, w0 = 10 / sec)
+//                 0.25
+//  F(z) = —---------------------
+//          1.75 z^2 -2.5 z + 1 
+
+K = 1;      // Proportional gain
+T = 0.05;   // Time step
+D = 0.5;    // Damping (decay of the oscillation)
+w0 = 10;    // Characteristic Frequency
+
+t = [0:T:4];
+input_step = ones(1, length(t));     // step input
+input_ramp = t;                    // ramp input
+input_noise = rand(1, length(t));   // noise input
+
+// choose input signal
+u = input_step;
+
+// Simulation of real system
+// Second order time delay system
+// y(t) = K u [ 1 - (1 / sqrt(1 - D^2)) * e^(-D*w0*t) * sin(w0*sqrt(1 - D^2)*t + arccos(D)]
+y = K*u.*(1 - (1/sqrt(1 - D^2)) .* exp(-D*w0.*t) .* sin(w0*sqrt(1 - D^2).*t + acos(D)));
+
+// Using laplace Transfer Function F(s) = K*(w0^2 / s^2 + 2*D*w0*s + w0^2)
+s = poly(0, 's');
+
+pt2 = w0^2 / (s^2 + 2*D*w0*s + w0^2);
+f_s = syslin('c', pt2.num, pt2.den);
+yc = csim(u, t, f_s);
+                
+subplot(2, 1, 1)
+plot(t, y)
+plot(t, yc, &quot;r.&quot;)
+
+h1 = legend(['y';'yc-laplace'], 4)
+title(&quot;Real system&quot;)
+</code></pre>
+<p><img src="scilab/real_system_graph.png" alt="Real System graph" /></p>
+</li>
+<li>
+<p>First we find second order system in <code>Z-domain</code> by <code>bilinear transformation</code>. We also determine the <code>system order</code>. Then, we simulate the system in <code>Z-domain</code>.</p>
+<pre><code class="language-c">// discrete time simulation
+z = poly(0, 'z');
+
+// Using bilinear transformation
+s = (2/T)*(z - 1)/(z + 1);
+pt2_d = w0^2 / (s^2 + 2*D*w0*s + w0^2);
+
+function [order, num_r, den_r] = system_order_determination(eqn)
+    num_r = roots(eqn.num)
+    den_r = roots(eqn.den)
+    n = length(num_r)
+    d = length(den_r)
+    if n &gt;= d then order = n
+    else order = d 
+    end
+    for i = 1:n
+        for j = 1:d
+            if num_r(i) == den_r(j)
+                order = order - 1
+            end
+        end
+    end
+endfunction
+
+order = system_order_determination(pt2_d)
+disp(order)
+f_z = syslin('d', pt2_d.num, pt2_d.den);
+
+yd = flts(u, tf2ss(f_z));
+subplot(2, 1, 2)
+plot(t, yd, &quot;r-&quot;)
+title(&quot;Discrete time&quot;)
+</code></pre>
+</li>
+<li>
+<p>Using <code>non-recursive least squares method</code> for <code>parameter estimation</code>.</p>
+<pre><code class="language-c">//  conventional parameter estimation e.g. least squares (to solve this task the Scilab script estim_a2.sce can partly be used -&gt; see Scilab examples in iLearn course). 
+
+// parameter estimation with recorded measurement values
+// 1) determine system output y_meas and X for parameter estimation
+N = length(t) - 2;                          // number of measurement points
+n = 3;                          // start index, mentioned as i in the slides
+
+// output vector Y
+y_meas = yd(n:n+N-1);
+// matrix X for paramters a0, a1, b0, b1, b2
+X = [-yd(n-2:n-2+N-1)' -yd(n-1:n-1+N-1)' u(n-2:n-2+N-1)' u(n-1:n-1+N-1)' u(n:n+N-1)'];
+
+// parameter estimation
+theta_hat = inv(X'*X)*X'*y_meas';
+disp(theta_hat)
+
+a0 = theta_hat(1);
+a1 = theta_hat(2);
+b0 = theta_hat(3);
+b1 = theta_hat(4);
+b2 = theta_hat(5);
+
+// check steady state of F(z)
+y_inf = (b0 + b1 + b2)/(1 + a0 + a1);
+disp(y_inf)
+
+// Simulation F(z) with estimated parameters
+Num = [b2*z^2 + b1*z + b0];
+Den = [z^2 + a1*z + a0];
+F_mod = syslin('d', Num, Den);
+ymod = flts(u, tf2ss(F_mod));
+//plot(t, ymod);
+</code></pre>
+<p><img src="scilab/rls_console.png" alt="RLS console" /></p>
+<blockquote>
+<p><strong>NOTE</strong>: From <code>y_inf</code> it is clear that we are unable to find <code>parameters</code> as \( (X^T X)^{-1} \) matrix is nearly <code>singular</code>. <code>y_inf</code> should be <strong>1</strong> as time approaches <em>infinity</em> for a <code>PT2 system</code>.</p>
+</blockquote>
+</li>
+<li>
+<p>Using <code>recursive least squares method</code> to solve the problem.</p>
+<pre><code class="language-c">//  Implementing the method rescursive least squares and plot of the shape of the parameter determination function
+alpha = 100
+m = size(X, 1)
+l = size(X, 2)
+S = alpha*eye(m, m)
+Theta_hat = zeros(m, l)
+
+
+// Algorithm
+for k = 1:m-1
+    for i = 1:l
+        gamma_func(k, i) = (1/(X(k+1, i)'*S(k)*X(k+1, i) + 1))*S(k)*X(k+1, i);
+        Theta_hat(k+1, i) = Theta_hat(k, i) + gamma_func(k, i)*(y_meas(k+1) - X(k+1, i)'*Theta_hat(k, i));
+        S(k+1) = (eye(1, 1) - gamma_func(k, i)*X(k+1, i)')*S(k);
+    end
+end
+
+for k = 2:m
+    a0(k) = Theta_hat(k, 1);
+    a1(k) = Theta_hat(k, 2);
+    b0(k) = Theta_hat(k, 3);
+    b1(k) = Theta_hat(k, 4);
+    b2(k) = Theta_hat(k, 5);
+    Num = [b2*z^2 + b1*z + b0];
+    Den = [z^2 + a1*z + a0];
+    F_mod = syslin('d', Num(k), Den(k));
+    y2mod(k) = flts(u(k), tf2ss(F_mod));
+end
+
+plot(t(n:n+N-1), y2mod', &quot;b&quot;);
+h2 = legend(['yd';'recursive parameter estimation'], 4)
+</code></pre>
+</li>
+<li>
+<p>We can use <code>RLS method with Exponential Forgetting</code> to better trace the original graph. Instead of <code>5th point</code> on this <em>step-by-step solution</em>, run the following <strong>commands</strong>.</p>
+<pre><code class="language-c">//  Implementing the method rescursive least squares and plot of the shape of the parameter determination function
+alpha = 100
+m = size(X, 1)
+l = size(X, 2)
+S = alpha*eye(m, m)
+Theta_hat = zeros(m, l)
+
+// Variable for exponential forgetting
+lambda = 0.1
+
+
+// Algorithm
+for k = 1:m-1
+    for i = 1:l
+        gamma_func(k, i) = (1/(X(k+1, i)'*S(k)*X(k+1, i) + lambda))*S(k)*X(k+1, i);
+        Theta_hat(k+1, i) = Theta_hat(k, i) + gamma_func(k, i)*(y_meas(k+1) - X(k+1, i)'*Theta_hat(k, i));
+        S(k+1) = (eye(1, 1) - gamma_func(k, i)*X(k+1, i)')*S(k)*(1/lambda);
+    end
+end
+
+for k = 2:m
+    a0(k) = Theta_hat(k, 1);
+    a1(k) = Theta_hat(k, 2);
+    b0(k) = Theta_hat(k, 3);
+    b1(k) = Theta_hat(k, 4);
+    b2(k) = Theta_hat(k, 5);
+    Num = [b2*z^2 + b1*z + b0];
+    Den = [z^2 + a1*z + a0];
+    F_mod = syslin('d', Num(k), Den(k));
+    y2mod(k) = flts(u(k), tf2ss(F_mod));
+end
+
+plot(t(n:n+N-1), y2mod', &quot;b&quot;);
+h2 = legend(['yd';'recursive parameter estimation'], 4)
+</code></pre>
+</li>
+</ol>
+<blockquote>
+<p>Check out the difference between <code>RLS</code> and <code>RLS with exponential forgetting</code> using the <a href="scilab/./rls_results.html">Results</a>.</p>
+</blockquote>
+<hr />
+<div style="break-before: page; page-break-before: always;"></div><h1 id="results-1"><a class="header" href="#results-1">Results</a></h1>
+<h2 id="recursive-least-squares-3"><a class="header" href="#recursive-least-squares-3">Recursive Least squares</a></h2>
+<p><img src="scilab/recursive_LS.png" alt="Recursive least squares graph" /></p>
+<h2 id="recursive-least-squares-with-exponential-forgetting-1"><a class="header" href="#recursive-least-squares-with-exponential-forgetting-1">Recursive Least squares with exponential forgetting</a></h2>
+<p><img src="scilab/rls_ef.png" alt="RLS with exponential forgetting graph" /></p>
+<hr />
+<div style="break-before: page; page-break-before: always;"></div><h1 id="system-order-determination-for-parameter-estimation-1"><a class="header" href="#system-order-determination-for-parameter-estimation-1">System Order Determination for Parameter Estimation</a></h1>
+<h2 id="arma-model"><a class="header" href="#arma-model">ARMA Model</a></h2>
+<p>An <code>ARMA model</code>, or <code>Autoregressive Moving Average model</code>, is used to describe <em>weakly stationary stochastic time series</em> in terms of two polynomials. The first of these polynomials is for <code>autoregression</code>, the second for the <code>moving average</code>. </p>
+<h2 id="calculation-of-system-model-order"><a class="header" href="#calculation-of-system-model-order">Calculation of System Model order</a></h2>
+<p>In this, we find the <strong>zeros</strong> or <strong>roots</strong> of the numerator and denominator polynomial of the <code>ARMA Model</code>. The system order is determined by the number of non-similar <strong>roots</strong> of the two polynomials.</p>
+<p><img src="scilab/system_model_intro.png" alt="system_order_intro" /></p>
+<hr />
+<div style="break-before: page; page-break-before: always;"></div><h1 id="script-1"><a class="header" href="#script-1">Script</a></h1>
+<h2 id="problem-statement-2"><a class="header" href="#problem-statement-2">Problem Statement</a></h2>
+<ul>
+<li>To determine the system order for <em>parameter estimation</em>.</li>
+</ul>
+<h2 id="solution-2"><a class="header" href="#solution-2">Solution</a></h2>
+<ul>
+<li>To download the complete solution, click on this -&gt; <a href="scilab/system_order_determination.sce" download><button>Download</button></a></li>
+</ul>
+<h2 id="step-by-step"><a class="header" href="#step-by-step">Step-by-step</a></h2>
+<blockquote>
+<p><strong>Note</strong>: You can run individual commands in scilab console to see what each command does.</p>
+</blockquote>
+<ol>
+<li>
+<p>Initial setup for <strong>system order determination</strong>. Plotting with time steps of <code>0.05</code> over a period of <code>4 seconds</code>.</p>
+<pre><code class="language-c">
+// **********************************************************************
+// System order determination for parameter estimation
+
+clear;
+clc;
+clf;
+figure(0)
+title(&quot;PTn System&quot;)
+T = 0.05;
+t = [0:T:4];
+input_step = ones(1, length(t));
+</code></pre>
+</li>
+<li>
+<p>This function takes in <code>ARMA model</code> numerator and denominator as <em>inputs</em> and <em>output</em> the <code>order</code> and <code>roots</code> of numerator and denominator.</p>
+<pre><code class="language-c">function [order, num_r, den_r] = system_order_determination(num, den)
+    num_r = roots(num)
+    den_r = roots(den)
+    n = length(num_r)
+    d = length(den_r)
+    //format(25)
+    if n &gt;= d then order = n
+    else order = d 
+    end
+    for i = 1:n
+        for j = 1:d
+            real_err = real(num_r(i)) - real(den_r(j))
+            imag_err = imag(num_r(i)) - imag(den_r(j))
+            
+            // Set precision as 0.005
+            if (abs(real_err) &lt; 0.005 &amp;&amp; abs(imag_err) &lt; 0.005)
+                order = order - 1
+            end
+        end
+    end
+endfunction
+</code></pre>
+</li>
+<li>
+<p>An example <code>ARMA model</code> is given to determine its order. You can change it to find the <strong>order</strong>a of other system.</p>
+<pre><code class="language-c">
+z = poly(0, 'z');
+num = -3 -5*z +2*z^2;
+den = -10 -6*z +7*z^2;
+[order, num_r, den_r] = system_order_determination(num, den)
+disp(&quot;System model order: &quot;, order, num_r, den_r)
+</code></pre>
+</li>
+<li>
+<p>Plotting the system in <code>Z-domain</code>.</p>
+<pre><code class="language-c">f_z = syslin('d', num, den);
+disp(f_z)
+yd = flts(input_step, tf2ss(f_z));
+plot(t, yd, &quot;r-&quot;)
+</code></pre>
+</li>
+</ol>
+<center><a href="scilab/system_order_determination.sce" download><button>Download</button></a></center>
+<hr />
+<div style="break-before: page; page-break-before: always;"></div><h1 id="results-2"><a class="header" href="#results-2">Results</a></h1>
+<br/>
+<center>
+<img src="scilab/./system_order_console.png" style="padding: 20px"/>
+<p><img src="scilab/system_order_graph.png" alt="system_order_determination_graph" /></p>
+</center>
+<blockquote>
+<p><strong>Challenge</strong>: Try other systems to find their orders.</p>
+</blockquote>
+<hr />
+<div style="break-before: page; page-break-before: always;"></div><h1 id="artificial-neural-network-with-backpropagation"><a class="header" href="#artificial-neural-network-with-backpropagation">Artificial Neural Network with Backpropagation</a></h1>
+<ul>
+<li>In this section, we will see how to use ANN to solve XOR Function problem.</li>
+</ul>
+<h2 id="definition-of-learning"><a class="header" href="#definition-of-learning">Definition of Learning</a></h2>
+<ul>
+<li>
+<p>Learning is the formulation of a system reaction according to external signals.
+Learning is characterized by the repeated impact of external signals on the system
+and external correction. Learning requires an <code>adaptive system.</code></p>
+</li>
+<li>
+<p>The external correction (acceptance or punishment) is the task of a teacher who
+knows the correct systems reaction. Thus the systems gets additional information
+by the teacher whether the system reaction is right or wrong. This process is called
+supervised learning.</p>
+</li>
+<li>
+<p>When a system is learning without supervision there is no additional information
+about the correctness and no external correction of the system behavior.</p>
+</li>
+</ul>
+<br/>
+<p><img src="ann/learning_methods.png" alt="Basic Learning Methods" /></p>
+<h2 id="xor-problem"><a class="header" href="#xor-problem">XOR Problem</a></h2>
+<ul>
+<li>a single layer perceptron cannot represent a simple <code>exclusive-or</code> function.</li>
+</ul>
+<p><img src="ann/xor_problem.png" alt="XOR Problem" /></p>
+<ul>
+<li>
+<p>For binary inputs, any transformation can be carried out by adding a layer of predicates which are connected to all
+inputs. For the specific <strong>XOR</strong> problem we geometrically show that by introducing hidden units, thereby extending the network to a multi-layer perceptron, the problem can be solved.</p>
+</li>
+<li>
+<p>Adding hidden units increases the class of problems that are soluble by <code>feed-forward</code>, <code>perceptron- like networks</code>. However, by this generalisation of the basic architecture we have also incurred a
+serious loss: we no longer have a learning rule to determine the optimal weights!</p>
+</li>
+</ul>
+<h2 id="backpropagation"><a class="header" href="#backpropagation">Backpropagation</a></h2>
+<ul>
+<li>
+<p>A <code>backpropagation</code> network can be compared with a <strong>multilayer perceptron</strong>.
+Since there are no setpoint values for the activiation of the hidden neurons
+availabale for learning a modified learning rule must be developed.</p>
+</li>
+<li>
+<p>The central idea behind this solution is that the errors for the units of the hidden layer are
+determined by back-propagating the errors of the units of the output layer. For this reason
+the method is often called the <code>back-propagation</code> learning rule.</p>
+</li>
+<li>
+<p>If the activation function is differentiable we can develope a learning rule
+for supervised learning. Is activation of the hidden neurons will be
+calculated from the activation of the output neurons.</p>
+</li>
+<li>
+<p>Typical activation functions:</p>
+</li>
+</ul>
+<p><img src="ann/activation_func.png" alt="Activation Functions" /></p>
+<hr />
+<div style="break-before: page; page-break-before: always;"></div><h1 id="script-2"><a class="header" href="#script-2">Script</a></h1>
+<h2 id="problem-statement-3"><a class="header" href="#problem-statement-3">Problem Statement</a></h2>
+<ul>
+<li>Solve <code>XOR</code> Problem using <strong>Artificial Neural Networks with Backpropagation</strong>.</li>
+</ul>
+<h2 id="solution-3"><a class="header" href="#solution-3">Solution</a></h2>
+<ul>
+<li>
+<p>The script can be downloaded by using this -&gt; <a href="ann/ANN.zip" download><button>Download</button></a></p>
+</li>
+<li>
+<p>To run the solution, extract the zip folder and execute this command:</p>
+</li>
+</ul>
+<pre><code class="language-bash">python3 ANN/ann_xor.py
+</code></pre>
+<br/>
+<p><code>ann_xor.py</code></p>
+<pre><code class="language-python">#! /usr/bin/env python3
+
+'''
+ann_xor
+========
+This script allows to train artificial neural network to solve problems
+including XOR. This solution is very generalised as multiple hidden
+layers could be used to solve other problems as well.
+
+******************************************************
+Author: Shivam Shivam (shivam0.mechatronics@gmail.com)
+******************************************************
+University: Technische Hochschule Deggendorf
+--------------------------------------------
+'''
+
+# importing the required module
+import matplotlib.pyplot as plt
+import numpy as np
+
+class NeuronLayer():
+    '''
+    This class creates a neuron layer for Artificial neural network.
+    It returns random weights and random biases for the layer.
+
+    :param num_inputs: Number of inputs of a neuron layer
+    :type num_inputs: int
+
+    :param num_neurons: Number of neuron connections to the layer
+    :type num_neurons: int
+
+    '''
+    #pylint: disable=too-few-public-methods
+    def __init__(self, num_inputs, num_neurons):
+        '''Constructor Method'''
+        # Random variables for weights and bias for the layer
+        self.weights = np.random.uniform(size=(num_inputs, num_neurons))
+        self.bias = np.random.uniform(size=(1, num_neurons))
+
+
+class ArtificialNeuralNetwork():
+    '''
+    This class is used to train a neural network of multiple layers.
+    If the neural network consists of only two inputs, it can plot a
+    graph showing the boundaries.
+
+    :param layers: A neural network of minimum two layers
+    :type layers: list
+
+    :TODO: Try adding changing learning rate to reduce oscillations
+    '''
+
+    def __init__(self, layers):
+        '''Constructor Method'''
+        self.layer = layers
+        self.num_layer = len(layers)
+        self.layer_output_list = []
+        self.learning_rate = 0.2
+        self.losses = []
+
+    def sigmoid_activation(self, value):
+        '''
+        The sigmoid activation function.
+
+        :param value: Sigmoid function is implemented on this.
+        :type value: `array` or `list` of floats
+        :return: Value of sigmoid function
+        :rtype: `array or `list` of floats
+        '''
+        return 1 / (1 + np.exp(-value))
+
+
+    def linear_activation(self, value, index):
+        '''
+        Linear Activation function. weights * `value` + bias
+
+        :param value: Linear Activation function is implemented on this.
+        :type value: `array` or `list` of floats
+        :param index: It gives the layers number from which weights and bias
+                    are extracted
+        :type index: int
+        :return: Output of linear activation function
+        :rtype: `array` or `list` of floats
+        '''
+
+        return np.dot(value, self.layer[index].weights) + self.layer[index].bias
+
+
+    def sigmoid_derivative(self, value):
+        '''
+        The first derivative of the sigmoid function wrt `value`.
+
+        :param value: Sigmoid Derivative is implemented on this.
+        :type value: `array` or `list` of floats
+        :return: Output of sigmoid derivative
+        :rtype: `array` or `list` of floats
+        '''
+        return value * (1 - value)
+
+
+    def forward_feeding(self, input_set):
+        '''
+        Feed Forward function for learning of neural network. This algorithm
+        takes updates each layer based on previous layer output by using
+        ``sigmoid_activation()`` and ``linear_activation()`` methods.
+
+        :param input_set: Training set input for the training of network
+        :type input_set: `array` or `list` of floats, ints
+        :return: Final layer output
+        :rtype: `array` or `list` of floats
+        '''
+        self.layer_output_list = []
+        for lay in range(self.num_layer):
+            layer_output = input_set if lay == 0 \
+                else self.layer_output_list[lay-1]
+
+            self.layer_output_list.append(self.sigmoid_activation(
+                            self.linear_activation(layer_output, lay)))
+
+        return self.layer_output_list[-1]
+
+
+    def back_propagation(self, output, desired_output):
+        '''
+        This method calculates the gradient required to update the
+        weights of each layer based on back propagation algorithm.
+        It also calculates the losses in desired output and
+        calculated output using ``forward_feeding()`` method.
+
+        :param output: Calcuated output using ``forward_feeding()``
+                    method
+        :type output: `array` or `list` of floats
+        :param desired_output: Target output
+        :type desired_output: `array` or `list` of floats, ints
+        :return: gradient required to update the weights of each layer
+        :rtype: `array` or `list` of floats
+        '''
+        # Calculate losses
+        loss = 0.5 * (desired_output - output) ** 2
+        self.losses.append(np.sum(loss))
+
+        # Final delta, we are moving from back to first
+        error = (desired_output - output)
+        delta = (error * self.sigmoid_derivative(output))
+        delta_list = [delta]
+
+        # Calcuate delta for each layer backwards
+        for lay in range(self.num_layer - 1):
+            hidden_delta = np.dot(
+                delta_list[lay], (self.layer[-(lay+1)].weights.T)) \
+            * self.sigmoid_derivative(self.layer_output_list[-(lay+2)])
+            delta_list.append(hidden_delta)
+
+        # Reverse and return the list
+        return delta_list[::-1]
+
+
+    def train(self, num_iterations, training_set_inputs, training_set_outputs):
+        '''
+        This method trains the neural network for a specific task. It
+        then updates the weights and biases based on
+        ``back_propagation()`` method.
+
+        :param num_iterations: provides the number of interations on
+                    which to train the neural network
+        :type num_iterations: int
+        :param training_set_inputs: On which to train the ANN
+        :type training_set_inputs: `array` or `list` of floats, ints
+        :param training_set_outputs: On which to train the ANN
+        :type training_set_outputs: `array` or `list` of floats, ints
+        '''
+        for iteration in range(num_iterations):
+            trained_output = self.forward_feeding(training_set_inputs)
+            delta = self.back_propagation(
+                trained_output, training_set_outputs)
+
+            for lay in range(self.num_layer):
+                grad = training_set_inputs.T @ delta[lay] if lay == 0 else \
+                    self.layer_output_list[lay-1].T @ delta[lay]
+                self.layer[lay].weights += (self.learning_rate * grad)
+                self.layer[lay].bias += np.sum(
+                    self.learning_rate * delta[lay], axis=0)
+
+            print(iteration + 1, trained_output)
+
+
+
+    def classify(self, input_set):
+        '''
+        Return the class to which a datapoint belongs based on
+        the ANN output for that point.
+
+        :param input_set: datapoints for classifications
+        :type input_set: list of [x, y]
+        :return: `1` if trained_output &gt; 0.5, otherwise `0`
+        :rtype: int
+        '''
+        if self.forward_feeding(input_set) &gt; 0.5:
+            return 1
+        return 0
+
+
+    def plot_2d(self, input_list, output_list, hmin=0.01):
+        '''
+        Generate plot of input data and decision boundary.
+
+        :param input_list: Training set input for plotting
+        :type input_list: `array` or `list` of floats, ints
+        :param output_list: Training set output for plotting
+        :type output_list: `array` or `list` of floats, ints
+        '''
+        # setting plot properties like size, theme and axis limits
+        plt.figure(figsize=(5, 5))
+        plt.axis('scaled')
+        plt.xlim(-0.1, 1.1)
+        plt.ylim(-0.1, 1.1)
+        plt.xlabel('x - axis')
+        plt.ylabel('y - axis')
+
+        colors = {
+            0: &quot;red&quot;,
+            1: &quot;green&quot;
+        }
+
+        # Plot the datapoints and their color based on ``output_list``
+        for iteration, value in enumerate(input_list):
+            plt.plot(value[0], value[1], color='black',linestyle='-',
+                marker='o', markerfacecolor=colors[
+                    output_list[iteration][0]], markersize=15)
+
+        # Color the graph based on after training
+        x_range = np.arange(-0.1, 1.1, hmin)
+        y_range = np.arange(-0.1, 1.1, hmin)
+
+        # creating a mesh to plot decision boundary
+        x_mesh, y_mesh = np.meshgrid(x_range, y_range, indexing='ij')
+        classify = np.array([[
+            self.classify([x, y]) for x in x_range] for y in y_range])
+
+        # using the contourf function to create the plot
+        plt.contourf(x_mesh, y_mesh, classify, colors=[
+            'red', 'green', 'green', 'blue'], alpha=0.4)
+
+
+    def print_weights(self):
+        '''The neural network prints its weights'''
+        print(&quot;\nNumber of layers: &quot;, self.num_layer)
+        layer_number = 0
+        for lay in self.layer:
+            layer_number += 1
+            print(&quot;\nLayer: &quot;, layer_number, lay.weights)
+
+
+def main():
+    '''Main Function. It trains the XOR Function using
+    ``ArtificialNeuralNetwork()`` class and then plots the boundary
+    graph.'''
+    input_list = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+    output_list = np.array([[0, 1, 1, 0]]).T
+
+    layer = []
+    # Create layer 1 (2 inputs, 2 neurons)
+    layer.append(NeuronLayer(2, 2)) # Hidden layer
+    # layer.append(NeuronLayer(2, 5))
+    #layer.append(NeuronLayer(5, 6))
+    # Create layer 2 (2 inputs, 1 output)
+    layer.append(NeuronLayer(2, 1)) # Output layer
+
+    ann = ArtificialNeuralNetwork(layer)
+
+    print(&quot;\nStage 1) Before Training (weights): &quot;)
+    ann.print_weights()
+
+    # Increase the number of iterations when using multiple hidden layers
+    ann.train(8000, input_list, output_list)
+
+    print(&quot;\nStage 2) After Training (weights): &quot;)
+    ann.print_weights()
+
+    print(&quot;\nStage 3) Testing: [1, 1]&quot;)
+    trained_output = ann.forward_feeding([[1, 1]])
+    print(trained_output)
+
+    # Plot losses graph
+    plt.title('LOSSES')
+    plt.plot(ann.losses)
+
+    # If number of inputs is equal to 2, plot the 2d graph
+    if len(input_list[0]) == 2:
+        ann.plot_2d(input_list, output_list)
+        plt.title('XOR Function')
+
+    plt.show()
+
+if __name__ == &quot;__main__&quot;:
+    main()
+
+</code></pre>
+<center><a href="ann/ANN.zip" download><button>Download</button></a><center>
+<hr />
+<div style="break-before: page; page-break-before: always;"></div><h1 id="results-3"><a class="header" href="#results-3">Results</a></h1>
+<br/>
+<center>
+<p><img src="ann/losses_1.png" alt="Losses" /></p>
+<p><img src="ann/xor_1.png" alt="XOR Graph" /></p>
+</center>
+<blockquote>
+<p><strong>Challenge</strong>: Try adding more <code>layers</code> or <code>neurons</code> to solve the same problem. Just take care that you may need to increase the training iterations to solve with more layers. Check code lines 260-265.</p>
+</blockquote>
+<hr />
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            MathJax.Hub.Register.StartupHook('End', function() {
+                window.setTimeout(window.print, 100);
+            });
+        });
+        </script>
+
+    </body>
+</html>
